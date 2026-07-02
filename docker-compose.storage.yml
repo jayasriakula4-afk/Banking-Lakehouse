@@ -1,0 +1,72 @@
+services:
+
+  postgres:
+    image: postgres:16
+
+    container_name: banking-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: metastore
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
+    networks:
+      - banking-network
+
+
+
+  hive-metastore:
+
+    image: apache/hive:4.0.1
+
+    container_name: banking-hive-metastore
+
+    restart: unless-stopped
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      SERVICE_NAME: metastore
+
+      DB_DRIVER: postgres
+
+      SERVICE_OPTS: >
+        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://postgres:5432/metastore
+        -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver
+        -Djavax.jdo.option.ConnectionUserName=postgres
+        -Djavax.jdo.option.ConnectionPassword=postgres
+
+    ports:
+      - "9083:9083"
+
+    networks:
+      - banking-network
+
+
+
+volumes:
+
+  postgres-data:
+
+
+
+networks:
+
+  banking-network:
