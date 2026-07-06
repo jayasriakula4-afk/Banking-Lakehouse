@@ -12,6 +12,7 @@ __pycache__/
 *.pyd
 .venv/
 venv/
+.python-version
 
 # -------------------------
 # IDEs
@@ -33,7 +34,7 @@ Thumbs.db
 # -------------------------
 # Airflow
 # -------------------------
-airflow/logs/
+docker/airflow/logs/
 airflow/plugins/__pycache__/
 
 # -------------------------
@@ -45,20 +46,64 @@ metastore_db/
 # -------------------------
 # RustFS Data
 # -------------------------
-rustfs/data/
+docker/rustfs/data/
 
 # -------------------------
 # Dremio
 # -------------------------
-dremio/data/
+docker/dremio/data/
 
 # -------------------------
 # Kafka
 # -------------------------
-kafka/data/
+docker/kafka/data/
 
 # -------------------------
 # Temporary Files
 # -------------------------
 *.tmp
 *.bak
+
+# -------------------------
+# Docker
+# -------------------------
+docker/**/*.db
+docker/**/*.log
+docker/**/*.pid
+docker/**/data/
+docker/**/volumes/
+
+# -------------------------
+# Java
+# -------------------------
+*.class
+*.jar
+*.war
+*.ear
+target/
+
+# -------------------------
+# Iceberg
+# -------------------------
+*.crc
+
+# -------------------------
+# Spark
+# -------------------------
+derby.log
+
+# -------------------------
+# Terraform
+# -------------------------
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+
+# -------------------------
+# Backups
+# -------------------------
+*.zip
+*.tar
+*.gz
+*.backup
+
