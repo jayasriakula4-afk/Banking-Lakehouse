@@ -694,5 +694,315 @@ The platform can be migrated from Docker Compose to Kubernetes or cloud-native s
 
 
 
+\---
 
+
+
+\# 8. High-Level Architecture
+
+
+
+\## Architecture Overview
+
+
+
+The Banking Lakehouse follows a layered architecture that separates data ingestion, processing, storage, governance, analytics, orchestration, and monitoring into independent services.
+
+
+
+The platform is composed entirely of open-source technologies and follows the Medallion architecture (Bronze, Silver, Gold) using Apache Iceberg as the table format.
+
+
+
+\## Architecture Layers
+
+
+
+| Layer | Components |
+
+|--------|------------|
+
+| Data Sources | Banking Databases, CSV Files, REST APIs, Streaming Events |
+
+| Ingestion | Apache NiFi |
+
+| Streaming | Apache Kafka |
+
+| Processing | Apache Spark |
+
+| Storage | RustFS |
+
+| Table Format | Apache Iceberg |
+
+| Metadata Catalog | Apache Polaris |
+
+| SQL Engine | Dremio OSS |
+
+| BI | Apache Superset |
+
+| Workflow | Apache Airflow |
+
+| Monitoring | Prometheus + Grafana |
+
+| Metadata Database | PostgreSQL |
+
+
+
+\## High-Level Architecture Diagram
+
+
+
+```mermaid
+
+flowchart LR
+
+
+
+subgraph Sources
+
+A1\[Core Banking]
+
+A2\[CRM]
+
+A3\[Payment Gateway]
+
+A4\[ATM Network]
+
+A5\[External APIs]
+
+end
+
+
+
+subgraph Ingestion
+
+B1\[Apache NiFi]
+
+B2\[Apache Kafka]
+
+end
+
+
+
+subgraph Processing
+
+C1\[Apache Spark]
+
+end
+
+
+
+subgraph Storage
+
+D1\[RustFS]
+
+D2\[Apache Iceberg]
+
+D3\[Apache Polaris]
+
+D4\[PostgreSQL]
+
+end
+
+
+
+subgraph Analytics
+
+E1\[Dremio OSS]
+
+E2\[Apache Superset]
+
+end
+
+
+
+subgraph Operations
+
+F1\[Apache Airflow]
+
+F2\[Prometheus]
+
+F3\[Grafana]
+
+end
+
+
+
+A1 --> B1
+
+A2 --> B1
+
+A3 --> B2
+
+A4 --> B2
+
+A5 --> B1
+
+
+
+B1 --> C1
+
+B2 --> C1
+
+
+
+C1 --> D2
+
+D2 --> D1
+
+D3 --> D4
+
+
+
+E1 --> D3
+
+E2 --> E1
+
+
+
+F1 --> C1
+
+
+
+F2 --> F3
+
+```
+
+
+
+\---
+
+
+
+\# 9. Component Responsibilities
+
+
+
+| Component | Purpose | Inputs | Outputs | Dependencies |
+
+|-----------|----------|--------|----------|--------------|
+
+| Apache NiFi | Batch ingestion | Files, APIs | Kafka / Spark | None |
+
+| Apache Kafka | Streaming ingestion | Events | Spark | Zookeeper (or KRaft in future) |
+
+| Apache Spark | Processing engine | Kafka, Files | Iceberg Tables | Polaris |
+
+| Apache Iceberg | Table format | Spark | Versioned Tables | RustFS |
+
+| RustFS | Object Storage | Iceberg Files | Data Objects | None |
+
+| Apache Polaris | Iceberg REST Catalog | Metadata | REST APIs | PostgreSQL |
+
+| PostgreSQL | Metadata Database | Polaris Metadata | Catalog Storage | None |
+
+| Dremio OSS | SQL Analytics | Iceberg Tables | SQL Results | Polaris |
+
+| Apache Superset | Dashboards | Dremio | Visualizations | Dremio |
+
+| Apache Airflow | Workflow Orchestration | DAGs | Scheduled Jobs | Spark |
+
+| Prometheus | Metrics | Services | Metrics | None |
+
+| Grafana | Monitoring | Prometheus | Dashboards | Prometheus |
+
+
+
+\---
+
+
+
+\# 10. Data Flow
+
+
+
+\## End-to-End Processing Flow
+
+
+
+1\. Banking systems generate transactional and reference data.
+
+2\. Apache NiFi ingests batch data from files, databases, and REST APIs.
+
+3\. Apache Kafka ingests streaming events such as transactions and payment notifications.
+
+4\. Apache Spark consumes data from both NiFi and Kafka.
+
+5\. Spark validates, cleanses, and transforms data.
+
+6\. Curated datasets are written as Apache Iceberg tables.
+
+7\. Iceberg stores data files in RustFS.
+
+8\. Apache Polaris maintains metadata for Iceberg tables.
+
+9\. PostgreSQL stores Polaris catalog metadata.
+
+10\. Dremio queries Iceberg tables through Polaris.
+
+11\. Apache Superset creates dashboards using Dremio.
+
+12\. Apache Airflow orchestrates scheduled jobs.
+
+13\. Prometheus collects metrics from all platform services.
+
+14\. Grafana visualizes operational metrics and alerts.
+
+
+
+\## Medallion Architecture
+
+
+
+| Layer | Purpose | Example |
+
+|--------|----------|---------|
+
+| Bronze | Raw data | Raw transaction files |
+
+| Silver | Cleaned and validated data | Standardized customer records |
+
+| Gold | Business-ready datasets | Daily customer balances |
+
+
+
+\---
+
+
+
+\# 11. Technology Stack
+
+
+
+| Layer | Technology | Version | Purpose |
+
+|---------|------------|----------|----------|
+
+| Object Storage | RustFS | Latest Stable | S3-compatible storage |
+
+| Table Format | Apache Iceberg | 1.9.2 | ACID tables |
+
+| Catalog | Apache Polaris | 1.0.x | REST Catalog |
+
+| Metadata DB | PostgreSQL | 16 | Catalog metadata |
+
+| Processing | Apache Spark | 3.5.6 | Batch \& Streaming |
+
+| Streaming | Apache Kafka | 7.5.x (Confluent Platform) | Event streaming |
+
+| Ingestion | Apache NiFi | 2.x | Batch ingestion |
+
+| SQL Engine | Dremio OSS | 26.x | Interactive SQL |
+
+| BI | Apache Superset | Latest Stable | Dashboards |
+
+| Orchestration | Apache Airflow | 3.x | Workflow scheduling |
+
+| Monitoring | Prometheus | Latest Stable | Metrics |
+
+| Visualization | Grafana | Latest Stable | Monitoring dashboards |
+
+| Container Runtime | Docker | 29.x | Local deployment |
+
+| Container Orchestration | Docker Compose | v2 | Service orchestration |
 
