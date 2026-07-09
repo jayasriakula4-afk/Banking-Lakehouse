@@ -432,3 +432,267 @@ The Banking Lakehouse must satisfy the following business requirements.
 
 | BR-010 | Cloud portability | Medium |
 
+
+
+
+
+
+
+\---
+
+
+
+\# 4. Functional Requirements
+
+
+
+The Banking Lakehouse platform shall provide the following functional capabilities.
+
+
+
+| ID | Requirement | Description | Priority |
+
+|----|-------------|-------------|----------|
+
+| FR-001 | Batch Data Ingestion | Ingest structured banking datasets from files, databases, and APIs. | High |
+
+| FR-002 | Streaming Data Ingestion | Consume real-time events using Apache Kafka. | High |
+
+| FR-003 | Data Processing | Transform raw data into curated datasets using Apache Spark. | High |
+
+| FR-004 | Data Storage | Store datasets in Apache Iceberg tables within RustFS object storage. | High |
+
+| FR-005 | Metadata Management | Manage Iceberg metadata through Apache Polaris REST Catalog. | High |
+
+| FR-006 | SQL Query Engine | Query datasets using Dremio OSS. | High |
+
+| FR-007 | Dashboarding | Visualize curated datasets using Apache Superset. | Medium |
+
+| FR-008 | Workflow Orchestration | Schedule and monitor pipelines using Apache Airflow. | High |
+
+| FR-009 | Data Governance | Maintain schema versions and metadata lineage. | High |
+
+| FR-010 | Monitoring | Monitor platform health using Prometheus and Grafana. | Medium |
+
+| FR-011 | Data Versioning | Support Iceberg snapshots and rollback capabilities. | High |
+
+| FR-012 | Schema Evolution | Support adding, renaming, and removing columns without downtime. | High |
+
+
+
+\## Functional Workflow
+
+
+
+The system shall support the following end-to-end workflow:
+
+
+
+1\. Collect banking data from multiple source systems.
+
+2\. Ingest data using Apache NiFi or Kafka.
+
+3\. Process data using Apache Spark.
+
+4\. Store processed data in Iceberg tables.
+
+5\. Register metadata with Apache Polaris.
+
+6\. Persist files in RustFS.
+
+7\. Query data using Dremio OSS.
+
+8\. Visualize insights using Apache Superset.
+
+9\. Schedule recurring jobs using Apache Airflow.
+
+10\. Monitor the platform using Prometheus and Grafana.
+
+
+
+\---
+
+
+
+\# 5. Non-Functional Requirements
+
+
+
+The Banking Lakehouse must satisfy the following quality attributes.
+
+
+
+| Category | Requirement |
+
+|----------|-------------|
+
+| Scalability | Support horizontal scaling for processing and storage. |
+
+| Availability | Services should be restartable without data loss. |
+
+| Reliability | Ensure ACID-compliant data operations using Apache Iceberg. |
+
+| Performance | Process millions of banking records efficiently. |
+
+| Security | Support authentication and authorization in future releases. |
+
+| Maintainability | Use modular microservice-based architecture. |
+
+| Portability | Deploy consistently using Docker Compose. |
+
+| Extensibility | Allow new processing engines to be integrated easily. |
+
+| Interoperability | Use open standards including Iceberg REST Catalog APIs. |
+
+| Observability | Provide metrics, dashboards, and centralized logging. |
+
+| Disaster Recovery | Support metadata backup and object storage recovery. |
+
+| Cost Optimization | Use only open-source technologies. |
+
+
+
+\## Quality Goals
+
+
+
+The platform should:
+
+
+
+\- Be cloud portable.
+
+\- Minimize vendor lock-in.
+
+\- Support hybrid deployments.
+
+\- Enable CI/CD automation.
+
+\- Support future Kubernetes migration.
+
+
+
+\---
+
+
+
+\# 6. Solution Overview
+
+
+
+The Banking Lakehouse is designed as a modular, open-source analytics platform implementing the Medallion Architecture.
+
+
+
+The platform separates responsibilities into multiple logical layers:
+
+
+
+1\. Data Sources
+
+2\. Data Ingestion
+
+3\. Streaming Platform
+
+4\. Data Processing
+
+5\. Metadata Management
+
+6\. Object Storage
+
+7\. SQL Analytics
+
+8\. Business Intelligence
+
+9\. Workflow Orchestration
+
+10\. Monitoring
+
+
+
+Each component communicates through well-defined APIs and open standards, enabling independent scaling and simplified maintenance.
+
+
+
+The architecture is designed to support both batch and streaming data processing while maintaining a unified analytical storage layer based on Apache Iceberg.
+
+
+
+\---
+
+
+
+\# 7. Architecture Principles
+
+
+
+The Banking Lakehouse follows these architectural principles.
+
+
+
+\## Open Source First
+
+
+
+All components are based on mature open-source technologies to reduce licensing costs and avoid vendor lock-in.
+
+
+
+\## Lakehouse Architecture
+
+
+
+A unified storage architecture combining the flexibility of a data lake with the reliability of a data warehouse.
+
+
+
+\## Medallion Data Model
+
+
+
+Data progresses through Bronze, Silver, and Gold layers, improving quality and business value at each stage.
+
+
+
+\## Separation of Compute and Storage
+
+
+
+Apache Spark performs compute-intensive operations while RustFS provides scalable object storage.
+
+
+
+\## Metadata Governance
+
+
+
+Apache Polaris centralizes metadata management using the Iceberg REST Catalog specification.
+
+
+
+\## Modular Design
+
+
+
+Each service is independently deployable, replaceable, and scalable.
+
+
+
+\## API-Driven Integration
+
+
+
+Components communicate through REST APIs, JDBC, SQL, Kafka protocols, and the Iceberg REST Catalog.
+
+
+
+\## Cloud Portability
+
+
+
+The platform can be migrated from Docker Compose to Kubernetes or cloud-native services with minimal architectural changes.
+
+
+
+
+
