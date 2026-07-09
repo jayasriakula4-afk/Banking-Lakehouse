@@ -1006,3 +1006,316 @@ F2 --> F3
 
 | Container Orchestration | Docker Compose | v2 | Service orchestration |
 
+
+---
+
+# 12. Storage Strategy
+
+## Overview
+
+The Banking Lakehouse adopts a cloud-native object storage architecture based on RustFS.
+
+Apache Iceberg manages all analytical datasets while RustFS stores the underlying data files and metadata files.
+
+Metadata management is centralized through Apache Polaris using PostgreSQL.
+
+## Storage Layers
+
+| Layer | Technology | Purpose |
+|---------|------------|----------|
+| Bronze | Iceberg + RustFS | Raw landing data |
+| Silver | Iceberg + RustFS | Cleansed data |
+| Gold | Iceberg + RustFS | Business-ready datasets |
+
+## Storage Components
+
+| Component | Responsibility |
+|------------|----------------|
+| RustFS | Object Storage |
+| Iceberg | Table Format |
+| Polaris | Catalog |
+| PostgreSQL | Metadata Repository |
+
+## Folder Structure
+
+```
+rustfs
+│
+├── bronze/
+│
+├── silver/
+│
+├── gold/
+│
+└── warehouse/
+```
+
+## Iceberg Features
+
+- ACID Transactions
+- Schema Evolution
+- Hidden Partitioning
+- Time Travel
+- Snapshot Isolation
+- Partition Evolution
+- Data Versioning
+
+## Storage Design Decisions
+
+The project uses RustFS because:
+
+- S3 compatible
+- Lightweight
+- Open Source
+- Active development
+- Compatible with Iceberg
+- Easy Docker deployment
+
+---
+
+# 13. Security
+
+## Current Scope
+
+This project focuses on infrastructure and data engineering capabilities.
+
+Enterprise authentication is outside the scope of Phase 1.
+
+## Current Security Controls
+
+| Layer | Security |
+|---------|----------|
+| Docker Network | Internal communication |
+| PostgreSQL | Username/Password |
+| RustFS | Access Key / Secret Key |
+| Polaris | Catalog Authentication |
+| Dremio | Local Authentication |
+| Kafka | PLAINTEXT (Development) |
+
+## Future Enhancements
+
+Future releases may include:
+
+- LDAP
+- OAuth2
+- OpenID Connect
+- Kerberos
+- TLS Encryption
+- Secrets Management
+- Hashicorp Vault
+- Apache Ranger
+
+---
+
+# 14. Deployment Strategy
+
+The Banking Lakehouse will be implemented incrementally.
+
+## Phase 1
+
+Repository Foundation
+
+## Phase 2
+
+Storage Layer
+
+- PostgreSQL
+- RustFS
+- Apache Polaris
+
+## Phase 3
+
+Processing Layer
+
+- Apache Spark
+- Apache Iceberg
+
+## Phase 4
+
+Streaming
+
+- Kafka
+- Apache NiFi
+
+## Phase 5
+
+Analytics
+
+- Dremio
+- Superset
+
+## Phase 6
+
+Workflow
+
+- Airflow
+
+## Phase 7
+
+Monitoring
+
+- Prometheus
+- Grafana
+
+## Deployment Model
+
+Development
+
+↓
+
+Docker Compose
+
+↓
+
+Testing
+
+↓
+
+GitHub
+
+↓
+
+Production (Future Kubernetes)
+
+---
+
+# 15. Monitoring & Observability
+
+## Objectives
+
+Provide complete operational visibility across all platform services.
+
+## Monitoring Components
+
+| Tool | Purpose |
+|------|----------|
+| Prometheus | Metrics Collection |
+| Grafana | Dashboards |
+| Docker Logs | Container Logs |
+
+## Metrics
+
+The following metrics will be monitored:
+
+- CPU
+- Memory
+- Disk Usage
+- Kafka Lag
+- Spark Jobs
+- Iceberg Tables
+- RustFS Storage
+- PostgreSQL Connections
+- Dremio Queries
+- Airflow DAG Status
+
+## Dashboards
+
+The platform will provide dashboards for:
+
+- Infrastructure
+- Kafka
+- Spark
+- PostgreSQL
+- RustFS
+- Dremio
+- Airflow
+
+## Alerting
+
+Future releases will support:
+
+- Email Alerts
+- Slack Notifications
+- Microsoft Teams
+
+##Logical Architecture
+                    Banking Sources
+                           │
+                           ▼
+                    Apache NiFi
+                           │
+                ┌──────────┴─────────┐
+                ▼                    ▼
+          Apache Kafka        Batch Files
+                │                    │
+                └──────────┬─────────┘
+                           ▼
+                     Apache Spark
+                           │
+                           ▼
+                    Apache Iceberg
+                           │
+          ┌────────────────┴───────────────┐
+          ▼                               ▼
+     Apache Polaris                 RustFS Storage
+          │
+          ▼
+      PostgreSQL
+          │
+          ▼
+      Dremio OSS
+          │
+          ▼
+ Apache Superset Dashboards
+
+
+##Deployment Architecture
+
+Docker Host
+
+├── PostgreSQL
+│
+├── RustFS
+│
+├── Apache Polaris
+│
+├── Apache Spark
+│
+├── Apache Kafka
+│
+├── Apache NiFi
+│
+├── Dremio OSS
+│
+├── Apache Superset
+│
+├── Apache Airflow
+│
+├── Prometheus
+│
+└── Grafana
+
+Shared Docker Network
+
+Persistent Docker Volumes
+
+GitHub Repository
+
+
+##Medallion Architecture
+
+           Banking Data
+
+                 │
+
+                 ▼
+
+        Bronze (Raw Data)
+
+                 │
+
+                 ▼
+
+     Silver (Validated Data)
+
+                 │
+
+                 ▼
+
+     Gold (Business Analytics)
+
+                 │
+
+                 ▼
+
+       Dremio + Superset
