@@ -1,18 +1,12 @@
-
-
 name: banking-storage
 
 services:
 
   postgres:
-
     image: postgres:16
-
     container_name: banking-postgres
-
     restart: unless-stopped
 
-    
     environment:
       POSTGRES_DB: polaris
       POSTGRES_USER: postgres
@@ -34,11 +28,49 @@ services:
     networks:
       - banking-network
 
-volumes:
+  seaweed-master:
+    image: chrislusf/seaweedfs:3.91
+    container_name: banking-seaweed-master
+    command: master
 
+    ports:
+      - "9333:9333"
+
+    volumes:
+      - ../data/seaweedfs/master:/data
+
+    restart: unless-stopped
+
+    networks:
+      - banking-network
+
+  seaweed-volume:
+    image: chrislusf/seaweedfs:3.91
+    container_name: banking-seaweed-volume
+
+    command: >
+      volume
+      -mserver=seaweed-master:9333
+      -dir=/data
+      -port=8080
+
+    depends_on:
+      - seaweed-master
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ../data/seaweedfs/volume:/data
+
+    restart: unless-stopped
+
+    networks:
+      - banking-network
+
+volumes:
   postgres-data:
 
 networks:
-
   banking-network:
     name: banking-network
