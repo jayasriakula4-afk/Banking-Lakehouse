@@ -1,4 +1,4 @@
-CREATE DATABASE hive_metastore;
+CREATE DATABASE polaris;
 
 CREATE DATABASE airflow;
 
