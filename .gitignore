@@ -107,3 +107,13 @@ terraform.tfstate.*
 *.gz
 *.backup
 
+# ===========================================
+# SeaweedFS Runtime Data
+# ===========================================
+data/seaweedfs/master/
+data/seaweedfs/volume/
+data/seaweedfs/filer/
+
+# Keep the directory structure
+!data/seaweedfs/
+!data/seaweedfs/.gitkeep

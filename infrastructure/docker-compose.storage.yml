@@ -68,6 +68,30 @@ services:
     networks:
       - banking-network
 
+  seaweed-filer:
+    image: chrislusf/seaweedfs:3.91
+    container_name: banking-seaweed-filer
+
+    command: >
+      filer
+      -master=seaweed-master:9333
+
+    depends_on:
+      - seaweed-master
+      - seaweed-volume
+
+    ports:
+      - "8888:8888"
+
+    volumes:
+      - ../data/seaweedfs/filer:/data
+      - ../configs/seaweedfs/filer.toml:/etc/seaweedfs/filer.toml:ro
+
+    restart: unless-stopped
+
+    networks:
+      - banking-network
+
 volumes:
   postgres-data:
 
