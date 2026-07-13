@@ -115,5 +115,7 @@ data/seaweedfs/volume/
 data/seaweedfs/filer/
 
 # Keep the directory structure
+data/seaweedfs/**
 !data/seaweedfs/
 !data/seaweedfs/.gitkeep
+

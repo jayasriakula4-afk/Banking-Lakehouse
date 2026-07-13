@@ -56,7 +56,7 @@ It acts as the implementation reference for all Docker Compose files, configurat
 
 | PostgreSQL | 16 |
 
-| RustFS | Latest Stable |
+| SeaweedFS | Latest Stable |
 
 | Apache Polaris | 1.0.x |
 
@@ -114,7 +114,7 @@ postgres-data
 
 
 
-rustfs-data
+SeaweedFS-data
 
 
 
@@ -170,7 +170,7 @@ banking-postgres
 
 
 
-banking-rustfs
+banking-SeaweedFS
 
 
 
@@ -220,9 +220,9 @@ banking-grafana
 
 | PostgreSQL | 5432 |
 
-| RustFS API | 9000 |
+| SeaweedFS API | 9000 |
 
-| RustFS Console | 9001 |
+| SeaweedFS Console | 9001 |
 
 | Polaris | 8181 |
 
@@ -330,7 +330,7 @@ feature/monitoring
 
 1\. PostgreSQL
 
-2\. RustFS
+2\. SeaweedFS
 
 3\. Apache Polaris
 
