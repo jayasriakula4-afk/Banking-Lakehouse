@@ -14,7 +14,7 @@ Core Banking
 
 → Apache Iceberg
 
-→ RustFS
+→ SeaweedFS
 
 → Apache Polaris
 
@@ -36,7 +36,7 @@ Payment Events
 
 → Apache Iceberg
 
-→ RustFS
+→ SeaweedFS
 
 → Apache Polaris
 

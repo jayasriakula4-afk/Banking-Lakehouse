@@ -24,7 +24,7 @@
 
 \- \[ ] PostgreSQL
 
-\- \[ ] RustFS
+\- \[ ] SeaweedFS
 
 \- \[ ] Apache Polaris
 

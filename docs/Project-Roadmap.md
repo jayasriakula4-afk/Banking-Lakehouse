@@ -42,7 +42,7 @@ Status: In Progress
 
 \- PostgreSQL
 
-\- RustFS
+\- SeaweedFS
 
 \- Apache Polaris
 

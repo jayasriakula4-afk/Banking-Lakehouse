@@ -22,7 +22,7 @@ The architecture integrates streaming and batch processing using Apache Kafka an
 
 
 
-Apache Polaris acts as the centralized Iceberg REST Catalog, providing metadata governance and enabling interoperability between compute engines. RustFS serves as the S3-compatible object storage layer for all Iceberg data files and metadata.
+Apache Polaris acts as the centralized Iceberg REST Catalog, providing metadata governance and enabling interoperability between compute engines. SeaweedFS serves as the S3-compatible object storage layer for all Iceberg data files and metadata.
 
 
 
@@ -214,7 +214,7 @@ The primary objectives of the Banking Lakehouse are:
 
 \- Centralize metadata using Apache Polaris.
 
-\- Store data in RustFS object storage.
+\- Store data in SeaweedFS object storage.
 
 \- Provide interactive SQL analytics using Dremio OSS.
 
@@ -274,7 +274,7 @@ The following assumptions have been made:
 
 \- All technologies will be open source.
 
-\- Object storage will be provided by RustFS.
+\- Object storage will be provided by SeaweedFS.
 
 \- Apache Polaris will serve as the Iceberg REST Catalog.
 
@@ -392,7 +392,7 @@ The implementation will be considered successful if it:
 
 \- Supports orchestration through Apache Airflow.
 
-\- Provides scalable object storage using RustFS.
+\- Provides scalable object storage using SeaweedFS.
 
 
 
@@ -460,7 +460,7 @@ The Banking Lakehouse platform shall provide the following functional capabiliti
 
 | FR-003 | Data Processing | Transform raw data into curated datasets using Apache Spark. | High |
 
-| FR-004 | Data Storage | Store datasets in Apache Iceberg tables within RustFS object storage. | High |
+| FR-004 | Data Storage | Store datasets in Apache Iceberg tables within SeaweedFS object storage. | High |
 
 | FR-005 | Metadata Management | Manage Iceberg metadata through Apache Polaris REST Catalog. | High |
 
@@ -498,7 +498,7 @@ The system shall support the following end-to-end workflow:
 
 5\. Register metadata with Apache Polaris.
 
-6\. Persist files in RustFS.
+6\. Persist files in SeaweedFS.
 
 7\. Query data using Dremio OSS.
 
@@ -658,7 +658,7 @@ Data progresses through Bronze, Silver, and Gold layers, improving quality and b
 
 
 
-Apache Spark performs compute-intensive operations while RustFS provides scalable object storage.
+Apache Spark performs compute-intensive operations while SeaweedFS provides scalable object storage.
 
 
 
@@ -730,7 +730,7 @@ The platform is composed entirely of open-source technologies and follows the Me
 
 | Processing | Apache Spark |
 
-| Storage | RustFS |
+| Storage | SeaweedFS |
 
 | Table Format | Apache Iceberg |
 
@@ -794,7 +794,7 @@ end
 
 subgraph Storage
 
-D1\[RustFS]
+D1\[SeaweedFS]
 
 D2\[Apache Iceberg]
 
@@ -888,9 +888,9 @@ F2 --> F3
 
 | Apache Spark | Processing engine | Kafka, Files | Iceberg Tables | Polaris |
 
-| Apache Iceberg | Table format | Spark | Versioned Tables | RustFS |
+| Apache Iceberg | Table format | Spark | Versioned Tables | SeaweedFS |
 
-| RustFS | Object Storage | Iceberg Files | Data Objects | None |
+| SeaweedFS | Object Storage | Iceberg Files | Data Objects | None |
 
 | Apache Polaris | Iceberg REST Catalog | Metadata | REST APIs | PostgreSQL |
 
@@ -932,7 +932,7 @@ F2 --> F3
 
 6\. Curated datasets are written as Apache Iceberg tables.
 
-7\. Iceberg stores data files in RustFS.
+7\. Iceberg stores data files in SeaweedFS.
 
 8\. Apache Polaris maintains metadata for Iceberg tables.
 
@@ -978,7 +978,7 @@ F2 --> F3
 
 |---------|------------|----------|----------|
 
-| Object Storage | RustFS | Latest Stable | S3-compatible storage |
+| Object Storage | SeaweedFS | Latest Stable | S3-compatible storage |
 
 | Table Format | Apache Iceberg | 1.9.2 | ACID tables |
 
@@ -1013,9 +1013,20 @@ F2 --> F3
 
 ## Overview
 
-The Banking Lakehouse adopts a cloud-native object storage architecture based on RustFS.
+SeaweedFS provides the object storage layer for the Banking Lakehouse.
 
-Apache Iceberg manages all analytical datasets while RustFS stores the underlying data files and metadata files.
+Features
+
+• S3-compatible API
+• Distributed object storage
+• Metadata via Filer
+• Scalable architecture
+• Supports Apache Iceberg
+• Supports Apache Polaris
+
+The Banking Lakehouse adopts a cloud-native object storage architecture based on SeaweedFS.
+
+Apache Iceberg manages all analytical datasets while SeaweedFS stores the underlying data files and metadata files.
 
 Metadata management is centralized through Apache Polaris using PostgreSQL.
 
@@ -1023,15 +1034,15 @@ Metadata management is centralized through Apache Polaris using PostgreSQL.
 
 | Layer | Technology | Purpose |
 |---------|------------|----------|
-| Bronze | Iceberg + RustFS | Raw landing data |
-| Silver | Iceberg + RustFS | Cleansed data |
-| Gold | Iceberg + RustFS | Business-ready datasets |
+| Bronze | Iceberg + SeaweedFS | Raw landing data |
+| Silver | Iceberg + SeaweedFS | Cleansed data |
+| Gold | Iceberg + SeaweedFS | Business-ready datasets |
 
 ## Storage Components
 
 | Component | Responsibility |
 |------------|----------------|
-| RustFS | Object Storage |
+| SeaweedFS | Object Storage |
 | Iceberg | Table Format |
 | Polaris | Catalog |
 | PostgreSQL | Metadata Repository |
@@ -1039,7 +1050,7 @@ Metadata management is centralized through Apache Polaris using PostgreSQL.
 ## Folder Structure
 
 ```
-rustfs
+SeaweedFS
 │
 ├── bronze/
 │
@@ -1062,7 +1073,7 @@ rustfs
 
 ## Storage Design Decisions
 
-The project uses RustFS because:
+The project uses SeaweedFS because:
 
 - S3 compatible
 - Lightweight
@@ -1087,7 +1098,7 @@ Enterprise authentication is outside the scope of Phase 1.
 |---------|----------|
 | Docker Network | Internal communication |
 | PostgreSQL | Username/Password |
-| RustFS | Access Key / Secret Key |
+| SeaweedFS | Access Key / Secret Key |
 | Polaris | Catalog Authentication |
 | Dremio | Local Authentication |
 | Kafka | PLAINTEXT (Development) |
@@ -1120,7 +1131,7 @@ Repository Foundation
 Storage Layer
 
 - PostgreSQL
-- RustFS
+- SeaweedFS
 - Apache Polaris
 
 ## Phase 3
@@ -1203,7 +1214,7 @@ The following metrics will be monitored:
 - Kafka Lag
 - Spark Jobs
 - Iceberg Tables
-- RustFS Storage
+- SeaweedFS Storage
 - PostgreSQL Connections
 - Dremio Queries
 - Airflow DAG Status
@@ -1216,7 +1227,7 @@ The platform will provide dashboards for:
 - Kafka
 - Spark
 - PostgreSQL
-- RustFS
+- SeaweedFS
 - Dremio
 - Airflow
 
@@ -1247,7 +1258,7 @@ Future releases will support:
                            │
           ┌────────────────┴───────────────┐
           ▼                               ▼
-     Apache Polaris                 RustFS Storage
+     Apache Polaris                 SeaweedFS Storage
           │
           ▼
       PostgreSQL
@@ -1265,7 +1276,7 @@ Docker Host
 
 ├── PostgreSQL
 │
-├── RustFS
+├── SeaweedFS
 │
 ├── Apache Polaris
 │

@@ -44,9 +44,9 @@ spark-warehouse/
 metastore_db/
 
 # -------------------------
-# RustFS Data
+# SeaweedFS Data
 # -------------------------
-docker/rustfs/data/
+docker/SeaweedFS/data/
 
 # -------------------------
 # Dremio

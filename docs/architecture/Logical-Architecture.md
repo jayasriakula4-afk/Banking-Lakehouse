@@ -26,7 +26,7 @@ The Banking Lakehouse is designed as a layered data platform where each componen
 
 | Processing | Apache Spark |
 
-| Storage | Apache Iceberg + RustFS |
+| Storage | Apache Iceberg + SeaweedFS |
 
 | Catalog | Apache Polaris |
 
@@ -66,7 +66,7 @@ C --> D
 
 D --> E\[Apache Iceberg]
 
-E --> F\[RustFS]
+E --> F\[SeaweedFS]
 
 
 

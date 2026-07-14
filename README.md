@@ -4,16 +4,16 @@ Enterprise Open Data Lakehouse for Banking built entirely using Open Source tech
 
 ## Technology Stack
 
-- RustFS
-- Apache Iceberg
-- Apache Polaris
-- Apache Spark
-- Apache Kafka
-- Apache NiFi
-- Apache Airflow
-- Dremio OSS
-- PostgreSQL
-- Apache Superset
+* SeaweedFS
+* Apache Iceberg
+* Apache Polaris
+* Apache Spark
+* Apache Kafka
+* Apache NiFi
+* Apache Airflow
+* Dremio OSS
+* PostgreSQL
+* Apache Superset
 
 ## Architecture
 
@@ -26,3 +26,4 @@ Documentation, Docker Compose, configurations, SQL scripts, datasets, and implem
 ## Project Status
 
 🚧 Under Active Development
+

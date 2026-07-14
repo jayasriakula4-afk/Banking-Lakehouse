@@ -91,6 +91,26 @@ services:
 
     networks:
       - banking-network
+  seaweed-s3:
+    image: chrislusf/seaweedfs:3.91
+    container_name: banking-seaweed-s3
+
+    command: >
+      s3
+      -filer=seaweed-filer:8888
+      -ip.bind=0.0.0.0
+      -port=8333
+
+    depends_on:
+      - seaweed-filer
+
+    restart: unless-stopped
+
+    ports:
+      - "8333:8333"
+
+    networks:
+      - banking-network    
 
 volumes:
   postgres-data:
@@ -98,3 +118,4 @@ volumes:
 networks:
   banking-network:
     name: banking-network
+    

@@ -6,7 +6,7 @@
 
 |-----------|----------------|
 
-| RustFS | Object storage for Iceberg data files |
+| SeaweedFS | SeaweedFS provides S3-compatible object storage for Apache Iceberg data and metadata. |
 
 | PostgreSQL | Stores Polaris metadata |
 

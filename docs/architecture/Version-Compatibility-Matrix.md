@@ -16,7 +16,7 @@
 
 | PostgreSQL | 16 | Polaris | ✅ |
 
-| RustFS | Latest Stable | Iceberg S3 FileIO | ✅ |
+| SeaweedFS | Latest Stable | Iceberg S3 FileIO | ✅ |
 
 | Apache Kafka | 7.5.x | Spark Structured Streaming | ✅ |
 

@@ -20,7 +20,7 @@ All platform services are deployed as Docker containers connected through a shar
 
 | PostgreSQL | Metadata database |
 
-| RustFS | Object storage |
+| SeaweedFS | Object storage |
 
 | Apache Polaris | Iceberg REST Catalog |
 
@@ -58,7 +58,7 @@ subgraph Docker Host
 
 Postgres
 
-RustFS
+SeaweedFS
 
 Polaris
 
@@ -90,7 +90,7 @@ Network\[(Docker Network)]
 
 Postgres --- Network
 
-RustFS --- Network
+SeaweedFS --- Network
 
 Polaris --- Network
 

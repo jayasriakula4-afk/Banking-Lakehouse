@@ -6,7 +6,7 @@
 
 |--------|------------|---------|----------|
 
-| Object Storage | RustFS | Latest Stable | S3-compatible storage |
+| Object Storage | SeaweedFS | Latest Stable | S3-compatible storage |
 
 | Table Format | Apache Iceberg | 1.9.2 | ACID data lake tables |
 
